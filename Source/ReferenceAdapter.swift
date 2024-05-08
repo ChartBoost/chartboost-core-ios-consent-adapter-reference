@@ -54,7 +54,7 @@ public final class ReferenceAdapter: NSObject, ConsentAdapter {
         consents[ConsentKeys.gdprConsentGiven] = ReferenceCMPSDK.gdprConsentGiven ? ConsentValues.granted : ConsentValues.denied
         // Optionally include boolean consent info targeted to specific partners.
         // Your CMP may or may not provide this kind of info.
-        for referencePartnerID, consented in ReferenceCMPSDK.partnerConsents {
+        for (referencePartnerID, consented) in ReferenceCMPSDK.partnerConsents {
             let key = mapReferenceCMPPartnerIDToChartboostPartnerID(referencePartnerID)
             consents[key] = consented ? ConsentValues.granted : ConsentValues.denied
         }
@@ -64,12 +64,12 @@ public final class ReferenceAdapter: NSObject, ConsentAdapter {
     /// Showcases how CMP-specific partner IDs may be mapped to Chartboost-specific partner IDs.
     /// CMPs may have their own identifiers associated with partner SDKs (e.g. ad SDKs), and they need to be mapped to standard
     /// Chartboost partner IDs so other Chartboost Core modules can use them.
-    private var func mapReferenceCMPPartnerIDToChartboostPartnerID(_ referencePartnerID: ReferenceCMPSDK.PartnerID) -> String {
+    private func mapReferenceCMPPartnerIDToChartboostPartnerID(_ referencePartnerID: ReferenceCMPSDK.PartnerID) -> String {
         let map =
             ["reference-cmp-partner-1": "chartboost",
-             "reference-cmp-partner-1": "admob",
-             "reference-cmp-partner-1": "facebook",
-             "reference-cmp-partner-1": "some_other_sdk"]
+             "reference-cmp-partner-2": "admob",
+             "reference-cmp-partner-3": "facebook",
+             "reference-cmp-partner-4": "some_other_sdk"]
         return map[referencePartnerID] ?? referencePartnerID
     }
 
@@ -77,7 +77,7 @@ public final class ReferenceAdapter: NSObject, ConsentAdapter {
 
     /// Instantiates a ``ReferenceAdapter`` module which can be passed on a call to
     /// ``ChartboostCore/initializeSDK(configuration:moduleObserver:)``.
-    public convenience init() {
+    public override convenience init() {
         self.init(credentials: nil)
     }
 
@@ -91,6 +91,7 @@ public final class ReferenceAdapter: NSObject, ConsentAdapter {
     /// Chartboost Core SDK may instantiate and discard several instances of the same module.
     /// Chartboost Core SDK keeps strong references to modules that are successfully initialized.
     public init(credentials: [String: Any]?) {
+        super.init()
         // You may read here some configuration options from the credentials map.
         // E.g. self.featureFlagEnabled = credentials?["feature_flag_enabled"] as? Bool ?? false
 
@@ -181,14 +182,14 @@ public final class ReferenceAdapter: NSObject, ConsentAdapter {
 extension ReferenceAdapter: ReferenceCMPSDKConsentObserver {
 
     func ccpaOptInChanged() {
-        delegate?.onConsentChange(key: ConsentKey.ccpaOptIn)
+        delegate?.onConsentChange(key: ConsentKeys.ccpaOptIn)
     }
 
     func gdprConsentGivenChanged() {
-        delegate?.onConsentChange(key: ConsentKey.ccpaOptIn)
+        delegate?.onConsentChange(key: ConsentKeys.ccpaOptIn)
     }
 
-    func partnerConsentsChanged(partnerIDs: Set<PartnerID>) {
+    func partnerConsentsChanged(partnerIDs: Set<ReferenceCMPSDK.PartnerID>) {
         // Same as in the implementation of the `consents` computed property, we must map CMP-specific partner IDs
         // to Chartboost-specific partner IDs to other Chartboost Core modules can use them.
         for referencePartnerID in partnerIDs {

@@ -65,7 +65,7 @@ class ReferenceCMPSDK {
         observers.forEach {
             $0.ccpaOptInChanged()
             $0.gdprConsentGivenChanged()
-            $0.partnerConsentsChanged()
+            $0.partnerConsentsChanged(partnerIDs: Set(partnerConsents.keys)) // for simplicity just report all changed
         }
     }
 
@@ -81,5 +81,5 @@ class ReferenceCMPSDK {
 protocol ReferenceCMPSDKConsentObserver: AnyObject {
     func ccpaOptInChanged()
     func gdprConsentGivenChanged()
-    func partnerConsentsChanged(partnerIDs: Set<PartnerID>)
+    func partnerConsentsChanged(partnerIDs: Set<ReferenceCMPSDK.PartnerID>)
 }
