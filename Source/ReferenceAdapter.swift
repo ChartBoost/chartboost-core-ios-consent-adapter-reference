@@ -94,15 +94,6 @@ public final class ReferenceAdapter: NSObject, ConsentAdapter {
         super.init()
         // You may read here some configuration options from the credentials map.
         // E.g. self.featureFlagEnabled = credentials?["feature_flag_enabled"] as? Bool ?? false
-
-        // Start observing changes to standard IAB strings in the User Defaults
-        // (A modern CMP likely supports the IAB standard and this may be the only thing that needs to be observed).
-        userDefaultsObserver = startObservingUserDefaultsIABStrings()
-
-        // Optionally start observing changes to custom consent values provided by the CMP.
-        // Your CMP may or may not provide this kind of info. If it does, it's important to observe changes to it
-        // so Chartboost Core is always up to date with the latest consent info that the CMP provides.
-        ReferenceCMPSDK.addObserverForConsentChanges(self)
     }
 
     /// Sets up the module to make it ready to be used.
@@ -112,6 +103,15 @@ public final class ReferenceAdapter: NSObject, ConsentAdapter {
     public func initialize(configuration: ModuleConfiguration, completion: @escaping (Error?) -> Void) {
         // Initialize the CMP SDK.
         ReferenceCMPSDK.initializeSDK()
+
+        // Start observing changes to standard IAB strings in the User Defaults
+        // (A modern CMP likely supports the IAB standard and this may be the only thing that needs to be observed).
+        userDefaultsObserver = startObservingUserDefaultsIABStrings()
+
+        // Optionally start observing changes to custom consent values provided by the CMP.
+        // Your CMP may or may not provide this kind of info. If it does, it's important to observe changes to it
+        // so Chartboost Core is always up to date with the latest consent info that the CMP provides.
+        ReferenceCMPSDK.addObserverForConsentChanges(self)
     }
 
     // MARK: - Consent
