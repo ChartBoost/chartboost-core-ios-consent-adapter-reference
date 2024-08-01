@@ -7,12 +7,13 @@ import ChartboostCoreSDK
 
 /// INTERNAL. FOR DEMO AND TESTING PURPOSES ONLY. DO NOT USE DIRECTLY.
 ///
-/// An adapter that is used for reference purposes. It is designed to showcase and test the Consent Adapter contract of the Chartboost Core SDK.
-/// Implementations of the Chartboost Core Consent Adapter interface may roughly model their own design after this class, but do NOT call this adapter directly.
+/// An adapter that is used for reference purposes. It is designed to showcase and test the Consent Adapter contract of the Chartboost 
+/// Core SDK.
+/// Implementations of the Chartboost Core Consent Adapter interface may roughly model their own design after this class, but do NOT 
+/// call this adapter directly.
 @objc(CBCReferenceAdapter)
 @objcMembers
 public final class ReferenceAdapter: NSObject, ConsentAdapter {
-
     /// The module identifier.
     public let moduleID = "reference"
 
@@ -46,7 +47,7 @@ public final class ReferenceAdapter: NSObject, ConsentAdapter {
     public var consents: [ConsentKey: ConsentValue] {
         // First load the standard IAB strings from User Defaults
         // (A modern CMP likely supports the IAB standard and this may be the only thing that needs to be done).
-        var consents = userDefaultsIABStrings()
+        var consents = userDefaultsIABStrings
         // Optionally include boolean consent info for different consent standards.
         // Your CMP may or may not provide this kind of info. If it does, it's better to include it, as it may be needed
         // by Core modules that do not yet support IAB standards.
@@ -65,11 +66,12 @@ public final class ReferenceAdapter: NSObject, ConsentAdapter {
     /// CMPs may have their own identifiers associated with partner SDKs (e.g. ad SDKs), and they need to be mapped to standard
     /// Chartboost partner IDs so other Chartboost Core modules can use them.
     private func mapReferenceCMPPartnerIDToChartboostPartnerID(_ referencePartnerID: ReferenceCMPSDK.PartnerID) -> String {
-        let map =
-            ["reference-cmp-partner-1": "chartboost",
-             "reference-cmp-partner-2": "admob",
-             "reference-cmp-partner-3": "facebook",
-             "reference-cmp-partner-4": "some_other_sdk"]
+        let map = [
+            "reference-cmp-partner-1": "chartboost",
+            "reference-cmp-partner-2": "admob",
+            "reference-cmp-partner-3": "facebook",
+            "reference-cmp-partner-4": "some_other_sdk",
+        ]
         return map[referencePartnerID] ?? referencePartnerID
     }
 
@@ -77,7 +79,7 @@ public final class ReferenceAdapter: NSObject, ConsentAdapter {
 
     /// Instantiates a ``ReferenceAdapter`` module which can be passed on a call to
     /// ``ChartboostCore/initializeSDK(configuration:moduleObserver:)``.
-    public override convenience init() {
+    override public convenience init() {
         self.init(credentials: nil)
     }
 
@@ -180,7 +182,6 @@ public final class ReferenceAdapter: NSObject, ConsentAdapter {
 // This is just an example, your CMP may provide different kinds of updates using different mechanisms (e.g.
 // notifications, delegate methods, observers, etc.).
 extension ReferenceAdapter: ReferenceCMPSDKConsentObserver {
-
     func ccpaOptInChanged() {
         delegate?.onConsentChange(key: ConsentKeys.ccpaOptIn)
     }
