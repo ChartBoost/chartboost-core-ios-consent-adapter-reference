@@ -9,7 +9,6 @@ import Foundation
 /// A dummy SDK designed to support the Reference adapter.
 /// Do NOT copy.
 class ReferenceCMPSDK {
-
     static var shouldCollectConsent = false
 
     static var ccpaOptIn = true
@@ -22,7 +21,7 @@ class ReferenceCMPSDK {
         "reference-cmp-partner-1": true,
         "reference-cmp-partner-2": false,
         "reference-cmp-partner-3": true,
-        "reference-cmp-partner-4": false
+        "reference-cmp-partner-4": false,
     ]
 
     static func initializeSDK() {}
