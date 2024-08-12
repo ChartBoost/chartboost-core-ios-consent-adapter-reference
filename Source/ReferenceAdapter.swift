@@ -11,14 +11,14 @@ import ChartboostCoreSDK
 /// Core SDK.
 /// Implementations of the Chartboost Core Consent Adapter interface may roughly model their own design after this class, but do NOT 
 /// call this adapter directly.
-@objc(CBCReferenceAdapter)
+@objc(CBCReferenceConsentAdapter)
 @objcMembers
-public final class ReferenceAdapter: NSObject, ConsentAdapter {
+public final class ReferenceConsentAdapter: NSObject, ConsentAdapter {
     /// The module identifier.
     public let moduleID = "reference"
 
     /// The version of the module.
-    public let moduleVersion = "1.1.0.0.0"
+    public let moduleVersion = "1.1.0.0.1"
 
     /// The delegate to be notified whenever any change happens in the CMP consent info.
     /// This delegate is set by Core SDK and is an essential communication channel between Core and the CMP.
@@ -181,7 +181,7 @@ public final class ReferenceAdapter: NSObject, ConsentAdapter {
 // Conformance to the ReferenceCMPSDK observer protocol which provides consent updates.
 // This is just an example, your CMP may provide different kinds of updates using different mechanisms (e.g.
 // notifications, delegate methods, observers, etc.).
-extension ReferenceAdapter: ReferenceCMPSDKConsentObserver {
+extension ReferenceConsentAdapter: ReferenceCMPSDKConsentObserver {
     func ccpaOptInChanged() {
         delegate?.onConsentChange(key: ConsentKeys.ccpaOptIn)
     }
